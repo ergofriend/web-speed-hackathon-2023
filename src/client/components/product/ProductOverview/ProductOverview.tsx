@@ -1,4 +1,3 @@
-import * as currencyFormatter from 'currency-formatter';
 import _ from 'lodash';
 import type { FC } from 'react';
 import { memo } from 'react';
@@ -50,11 +49,13 @@ export const ProductOverview: FC<Props> = memo(({ activeOffer, product }) => {
       <div className={styles.priceWrapper()}>
         {activeOffer !== undefined ? (
           <span className={styles.priceWithoutOffer()}>
-            {currencyFormatter.format(product.price, { code: 'JPY', precision: 0 })}
+            {new Intl.NumberFormat('ja-JP', { currency: 'JPY', style: 'currency' }).format(product.price)}
           </span>
         ) : null}
         <span className={styles.price()}>
-          {currencyFormatter.format(activeOffer?.price ?? product.price, { code: 'JPY', precision: 0 })}
+          {new Intl.NumberFormat('ja-JP', { currency: 'JPY', style: 'currency' }).format(
+            activeOffer?.price ?? product.price,
+          )}
         </span>
       </div>
     </div>
