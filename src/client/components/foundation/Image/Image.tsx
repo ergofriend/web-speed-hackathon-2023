@@ -13,7 +13,6 @@ export const Image: FC<Props> = ({ fill, ...rest }) => {
       className={classNames(styles.container(), {
         [styles.container__fill()]: fill === true,
       })}
-      loading="eager"
       {...rest}
       src={rest.src?.endsWith('.jpg') ? `${rest.src}.webp` : rest.src}
     />
