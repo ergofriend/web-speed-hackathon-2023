@@ -4,6 +4,7 @@ import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 import type { Context } from '../context';
+import { apolloTracingPlugin } from '../sentry';
 import { rootResolve } from '../utils/root_resolve';
 
 import { featureItemResolver } from './feature_item_resolver';
@@ -39,8 +40,8 @@ export async function initializeApolloServer(): Promise<ApolloServer<Context>> {
     ].map((filepath) => fs.readFile(filepath, { encoding: 'utf-8' })),
   );
 
-  const server = new ApolloServer({
-    plugins: [ApolloServerPluginLandingPageLocalDefault({ includeCookies: true })],
+  const server = new ApolloServer<Context>({
+    plugins: [apolloTracingPlugin, ApolloServerPluginLandingPageLocalDefault({ includeCookies: true })],
     resolvers: {
       FeatureItem: featureItemResolver,
       FeatureSection: featureSectionResolver,

@@ -13,6 +13,7 @@ import serve from 'koa-static';
 import type { Context } from './context';
 import { dataSource } from './data_source';
 import { initializeApolloServer } from './graphql';
+import { getTransaction, initSentry } from './sentry';
 import { initializeDatabase } from './utils/initialize_database';
 import { rootResolve } from './utils/root_resolve';
 
@@ -24,6 +25,8 @@ async function init(): Promise<void> {
 
   const app = new Koa();
   const httpServer = http.createServer(app.callback());
+
+  initSentry();
 
   app.keys = ['cookie-key'];
   app.use(logger());
@@ -43,7 +46,9 @@ async function init(): Promise<void> {
       '/graphql',
       koaMiddleware(apolloServer, {
         context: async ({ ctx }) => {
-          return { session: ctx.session } as Context;
+          const transaction = getTransaction();
+          const context = { session: ctx.session, transaction };
+          return context as Context;
         },
       }),
     ),
