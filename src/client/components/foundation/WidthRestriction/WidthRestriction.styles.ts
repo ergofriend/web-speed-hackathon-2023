@@ -1,10 +1,10 @@
 import { css } from '@emotion/css';
 
 export const container = () => css`
-  width: 100%;
+  max-width: 1024px;
 `;
 
-export const inner = ({ width }: { width: number | undefined }) => css`
+export const inner = () => css`
   margin: 0 auto;
-  width: ${width}px;
+  width: 100%;
 `;
