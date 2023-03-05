@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import type { FeatureSectionFragmentResponse } from '../../../graphql/fragments';
-import {  ProductCard } from '../ProductCard';
+import { ProductCard } from '../ProductCard';
 
 import * as styles from './ProductGridList.styles';
 
@@ -24,4 +24,3 @@ export const ProductGridList: FC<Props> = ({ featureSection }) => {
     </ul>
   );
 };
-

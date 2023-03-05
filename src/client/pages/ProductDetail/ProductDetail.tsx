@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 

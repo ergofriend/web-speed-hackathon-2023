@@ -44,4 +44,3 @@ export const ProductCard: FC<Props> = ({ product }) => {
     </Anchor>
   );
 };
-

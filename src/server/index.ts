@@ -12,8 +12,6 @@ import session from 'koa-session';
 import serve from 'koa-static';
 import MobileDetect from 'mobile-detect';
 import { renderPage } from 'vite-plugin-ssr';
-import {createServer} from 'vite';
-import c2k from 'koa-connect';
 
 import type { Context } from './context';
 import { dataSource } from './data_source';
@@ -34,7 +32,7 @@ async function init(): Promise<void> {
   initSentry();
 
   app.keys = ['cookie-key'];
-  // app.use(logger());
+  app.use(logger());
   app.use(bodyParser());
   app.use(session({}, app));
 
@@ -102,8 +100,6 @@ async function init(): Promise<void> {
     const { body, contentType, statusCode } = httpResponse;
 
     console.log(`Sending ${ctx.originalUrl}: ${statusCode} ${contentType}`);
-
-    const isJavaScript = ctx.originalUrl.endsWith('.js');
 
     ctx.status = statusCode;
     ctx.type = contentType;

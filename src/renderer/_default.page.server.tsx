@@ -22,13 +22,13 @@ async function render(pageContext: PageContextBuiltInClient & PageContext) {
   const tree = (
     <StaticRouter location={urlPathname}>
       <App apolloClient={apolloClient} isMobile={isMobile}>
-        <Page  />
+        <Page />
       </App>
     </StaticRouter>
   );
   const pageHtml = await getDataFromTree(tree);
   const apolloInitialState = apolloClient.extract();
-  const html= renderStylesToString(pageHtml);
+  const html = renderStylesToString(pageHtml);
   const documentHtml = escapeInject`<!DOCTYPE html>
     <html>
       <head>

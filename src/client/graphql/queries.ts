@@ -2,7 +2,6 @@ import { gql } from '@apollo/client/core';
 
 import type {
   AuthUserFragmentResponse,
-  FeatureItemFragmentResponse,
   FeatureSectionFragmentResponse,
   ProductReviewFragmentResponse,
   ProductWithReviewFragmentResponse,
@@ -10,7 +9,6 @@ import type {
 } from './fragments';
 import {
   AuthUserFragment,
-  FeatureItemFragment,
   FeatureSectionFragment,
   ProductReviewFragment,
   ProductWithReviewFragment,
@@ -81,4 +79,3 @@ export const GetFeatureSectionsQuery = gql`
 export type GetFeatureSectionsQueryResponse = {
   features: FeatureSectionFragmentResponse[];
 };
-

@@ -2,7 +2,7 @@ export { render };
 
 import type { NormalizedCacheObject } from '@apollo/client';
 import { ApolloClient, InMemoryCache } from '@apollo/client/core';
-import {  hydrateRoot } from 'react-dom/client';
+import { hydrateRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import type { PageContextBuiltInClient } from 'vite-plugin-ssr/client/router';
 
@@ -11,9 +11,9 @@ import { App } from '../client/components/application/App';
 import type { PageContext } from './type';
 
 async function render(pageContext: PageContextBuiltInClient & PageContext) {
-  const { isMobile, Page} = pageContext;
+  const { isMobile, Page } = pageContext;
   const apolloClient = makeApolloClient(pageContext.apolloInitialState);
-  console.log('hydrateRoot start')
+  console.log('hydrateRoot start');
   hydrateRoot(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     document.getElementById('page-content')!,
@@ -23,12 +23,12 @@ async function render(pageContext: PageContextBuiltInClient & PageContext) {
       </App>
     </BrowserRouter>,
     {
-      'onRecoverableError': (error) => {
-        console.error('hydrateRoot onRecoverableError', error)
-      }
-    }
-  )
-  console.log('hydrateRoot end')
+      onRecoverableError: (error) => {
+        console.error('hydrateRoot onRecoverableError', error);
+      },
+    },
+  );
+  console.log('hydrateRoot end');
 }
 
 function makeApolloClient(apolloInitialState?: NormalizedCacheObject) {

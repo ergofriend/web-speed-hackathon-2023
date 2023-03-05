@@ -228,8 +228,8 @@ export const FeatureSectionFragment = gql`
     id
     title
     items {
-        ...FeatureItemFragment
-      }
+      ...FeatureItemFragment
+    }
   }
 `;
 export type FeatureSectionFragmentResponse = Pick<FeatureSection, 'id' | 'title'> & {

@@ -34,7 +34,7 @@ export const apolloTracingPlugin: ApolloServerPlugin<Context> = {
   requestDidStart({ contextValue: context, request }) {
     if (request.operationName) {
       // set the transaction Name if we have named queries
-      context.transaction.setName(request.operationName!);
+      context.transaction.setName(request.operationName);
     }
     return {
       executionDidStart() {

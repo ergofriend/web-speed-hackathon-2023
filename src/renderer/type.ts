@@ -2,7 +2,7 @@ import type { NormalizedCacheObject } from '@apollo/client';
 
 export type PageContext = {
   isMobile: boolean;
-  emotionIds: string[]
+  emotionIds: string[];
   apolloInitialState: NormalizedCacheObject | undefined;
   urlOriginal: string;
   urlPathname: string;

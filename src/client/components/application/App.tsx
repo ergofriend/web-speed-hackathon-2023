@@ -29,14 +29,14 @@ export const App: FC<Props> = ({ apolloClient, children, isMobile }) => {
   };
 
   return (
-      <ApolloProvider client={apolloClient}>
-        <RecoilRoot initializeState={initializeState}>
-          <ErrorBoundary fallbackRender={Fallback}>{children}</ErrorBoundary>
-          <Suspense fallback={null}>
-            {/* <SignInModal />
-            <SignUpModal /> */}
-          </Suspense>
-        </RecoilRoot>
-      </ApolloProvider>
+    <ApolloProvider client={apolloClient}>
+      <RecoilRoot initializeState={initializeState}>
+        <ErrorBoundary fallbackRender={Fallback}>{children}</ErrorBoundary>
+        <Suspense fallback={null}>
+          <SignInModal />
+          <SignUpModal />
+        </Suspense>
+      </RecoilRoot>
+    </ApolloProvider>
   );
 };

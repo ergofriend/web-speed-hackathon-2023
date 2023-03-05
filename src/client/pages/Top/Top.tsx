@@ -1,9 +1,8 @@
-import { FC, useEffect, useState } from 'react';
-import { Suspense } from 'react';
+import type { FC } from 'react';
 import { Helmet } from 'react-helmet';
 
 import { Layout } from '../../components/application/Layout';
-import {  ProductList } from '../../components/feature/ProductList';
+import { ProductList } from '../../components/feature/ProductList';
 import { ProductHeroImage } from '../../components/product/ProductHeroImage';
 import { useFeatures } from '../../hooks/useFeatures';
 import { useRecommendation } from '../../hooks/useRecommendation';
@@ -11,9 +10,6 @@ import { useRecommendation } from '../../hooks/useRecommendation';
 import * as styles from './Top.styles';
 
 export const Top: FC = () => {
-  useEffect(() => {
-    console.log('Top');
-  }, []);
   return (
     <>
       <Helmet>
@@ -22,7 +18,7 @@ export const Top: FC = () => {
       <Layout>
         <ProductHero />
         <div className={styles.featureList()}>
-        <FeatureList />
+          <FeatureList />
         </div>
       </Layout>
     </>
@@ -59,5 +55,3 @@ const FeatureList = () => {
     </>
   );
 };
-
-
