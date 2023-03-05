@@ -1,5 +1,5 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core';
-import { getDataFromTree } from '@apollo/client/react/ssr';
+import { renderToStringWithData } from '@apollo/client/react/ssr';
 import { renderStylesToString } from '@emotion/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr';
@@ -26,7 +26,7 @@ async function render(pageContext: PageContextBuiltInClient & PageContext) {
       </App>
     </StaticRouter>
   );
-  const pageHtml = await getDataFromTree(tree);
+  const pageHtml = await renderToStringWithData(tree);
   const apolloInitialState = apolloClient.extract();
   const html = renderStylesToString(pageHtml);
   const documentHtml = escapeInject`<!DOCTYPE html>
