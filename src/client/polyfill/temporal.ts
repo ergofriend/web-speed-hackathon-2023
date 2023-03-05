@@ -1,6 +1,6 @@
 import { Temporal, toTemporalInstant } from '@js-temporal/polyfill';
 
-if (!('Temporal' in window)) {
+if (typeof window !== 'undefined' && !('Temporal' in window)) {
   // @ts-expect-error polyfill
   window.Temporal = Temporal;
 }

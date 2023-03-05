@@ -10,10 +10,10 @@ export class User {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column('text', { nullable: false })
   email!: string;
 
-  @Column()
+  @Column('text', { nullable: false })
   password!: string;
 
   @OneToOne(() => Profile, (profile) => profile.user)

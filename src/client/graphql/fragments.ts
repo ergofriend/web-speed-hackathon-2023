@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client/core';
 
 import type { FeatureItem } from '../../model/feature_item';
 import type { FeatureSection } from '../../model/feature_section';
@@ -223,9 +223,15 @@ export type FeatureItemFragmentResponse = Pick<FeatureItem, 'id'> & {
 };
 
 export const FeatureSectionFragment = gql`
+  ${FeatureItemFragment}
   fragment FeatureSectionFragment on FeatureSection {
     id
     title
+    items {
+        ...FeatureItemFragment
+      }
   }
 `;
-export type FeatureSectionFragmentResponse = Pick<FeatureSection, 'id' | 'title'>;
+export type FeatureSectionFragmentResponse = Pick<FeatureSection, 'id' | 'title'> & {
+  items: FeatureItemFragmentResponse[];
+};

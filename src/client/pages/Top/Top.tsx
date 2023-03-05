@@ -1,39 +1,28 @@
-import type { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 
 import { Layout } from '../../components/application/Layout';
-import { DummyProductList, ProductList } from '../../components/feature/ProductList';
-import { DummyProductHeroImage, ProductHeroImage } from '../../components/product/ProductHeroImage';
+import {  ProductList } from '../../components/feature/ProductList';
+import { ProductHeroImage } from '../../components/product/ProductHeroImage';
 import { useFeatures } from '../../hooks/useFeatures';
 import { useRecommendation } from '../../hooks/useRecommendation';
 
 import * as styles from './Top.styles';
 
 export const Top: FC = () => {
+  useEffect(() => {
+    console.log('Top');
+  }, []);
   return (
     <>
       <Helmet>
         <title>買えるオーガニック</title>
       </Helmet>
       <Layout>
-        <Suspense fallback={<DummyProductHeroImage />}>
-          <ProductHero />
-        </Suspense>
-
+        <ProductHero />
         <div className={styles.featureList()}>
-          <Suspense
-            fallback={
-              <>
-                <DummyFeatureListItem />
-                <DummyFeatureListItem />
-                <DummyFeatureListItem />
-                <DummyFeatureListItem />
-              </>
-            }
-          >
-            <FeatureList />
-          </Suspense>
+        <FeatureList />
         </div>
       </Layout>
     </>
@@ -71,11 +60,4 @@ const FeatureList = () => {
   );
 };
 
-const DummyFeatureListItem = () => {
-  return (
-    <div className={styles.feature()}>
-      <h2 className={styles.featureHeading()}>{''}</h2>
-      <DummyProductList />
-    </div>
-  );
-};
+

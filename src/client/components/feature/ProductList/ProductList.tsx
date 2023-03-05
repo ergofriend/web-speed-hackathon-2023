@@ -1,11 +1,11 @@
 import type { FC } from 'react';
-import { memo, Suspense } from 'react';
+import { memo } from 'react';
 
 import type { FeatureSectionFragmentResponse } from '../../../graphql/fragments';
 import { isEqual } from '../../../utils/isEqual';
 import { DeviceType, GetDeviceType } from '../../foundation/GetDeviceType';
-import { DummyProductGridList, ProductGridList } from '../ProductGridList';
-import { DummyProductListSlider, ProductListSlider } from '../ProductListSlider';
+import {  ProductGridList } from '../ProductGridList';
+import {  ProductListSlider } from '../ProductListSlider';
 
 type Props = {
   featureSection: FeatureSectionFragmentResponse;
@@ -17,18 +17,10 @@ export const ProductList: FC<Props> = memo(({ featureSection }) => {
       {({ deviceType }) => {
         switch (deviceType) {
           case DeviceType.DESKTOP: {
-            return (
-              <Suspense fallback={<DummyProductListSlider />}>
-                <ProductListSlider featureSection={featureSection} />;
-              </Suspense>
-            );
+            return   <ProductListSlider featureSection={featureSection} />;
           }
           case DeviceType.MOBILE: {
-            return (
-              <Suspense fallback={<DummyProductGridList />}>
-                <ProductGridList featureSection={featureSection} />;
-              </Suspense>
-            );
+            return    <ProductGridList featureSection={featureSection} />;
           }
         }
       }}
@@ -37,20 +29,3 @@ export const ProductList: FC<Props> = memo(({ featureSection }) => {
 }, isEqual);
 
 ProductList.displayName = 'ProductList';
-
-export const DummyProductList = () => {
-  return (
-    <GetDeviceType>
-      {({ deviceType }) => {
-        switch (deviceType) {
-          case DeviceType.DESKTOP: {
-            return <DummyProductListSlider />;
-          }
-          case DeviceType.MOBILE: {
-            return <DummyProductGridList />;
-          }
-        }
-      }}
-    </GetDeviceType>
-  );
-};

@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react/hooks';
 import { useErrorHandler } from 'react-error-boundary';
 
 import type { GetProductDetailsQueryResponse } from '../graphql/queries';

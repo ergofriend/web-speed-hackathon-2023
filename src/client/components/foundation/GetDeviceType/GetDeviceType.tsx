@@ -1,5 +1,8 @@
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+
+import { isMobileState } from '../../../store/modal/state';
 
 export const DeviceType = {
   DESKTOP: 'DESKTOP',
@@ -12,14 +15,16 @@ type Props = {
 };
 
 export const GetDeviceType = ({ children }: Props) => {
+  const isMobile = useRecoilValue(isMobileState);
   const [width] = useWindowSize();
-  const deviceType = width > 768 ? DeviceType.DESKTOP : DeviceType.MOBILE;
+  const deviceType = !isMobile || width > 768 ? DeviceType.DESKTOP : DeviceType.MOBILE;
 
   return <>{children({ deviceType })}</>;
 };
 
 const useWindowSize = (): number[] => {
-  const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
+  const init = typeof window !== 'undefined' ? [window.innerWidth, window.innerHeight] : [0, 0];
+  const [size, setSize] = useState(init);
   useEffect(() => {
     const updateSize = (): void => {
       setSize([window.innerWidth, window.innerHeight]);

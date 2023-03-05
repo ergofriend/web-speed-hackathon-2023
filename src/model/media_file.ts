@@ -6,6 +6,6 @@ export class MediaFile {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column('text', { nullable: false })
   filename!: string;
 }

@@ -14,12 +14,12 @@ export class Order {
   @ManyToOne(() => User)
   user!: Relation<User>;
 
-  @Column()
+  @Column('text', { nullable: false })
   zipCode!: string;
 
-  @Column()
+  @Column('text', { nullable: false })
   address!: string;
 
-  @Column()
+  @Column('boolean', { nullable: false })
   isOrdered!: boolean;
 }

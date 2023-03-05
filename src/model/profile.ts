@@ -12,7 +12,7 @@ export class Profile {
   @JoinColumn()
   user!: Relation<User>;
 
-  @Column()
+  @Column('text', { nullable: false })
   name!: string;
 
   @ManyToOne(() => MediaFile)

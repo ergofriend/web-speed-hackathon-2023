@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client/core';
 
 import type {
   AuthUserFragmentResponse,
@@ -82,20 +82,3 @@ export type GetFeatureSectionsQueryResponse = {
   features: FeatureSectionFragmentResponse[];
 };
 
-export const GetFeatureItemsQuery = gql`
-  ${FeatureItemFragment}
-
-  query GetFeatureItems($featureId: Int!) {
-    feature(id: $featureId) {
-      items {
-        ...FeatureItemFragment
-      }
-    }
-  }
-`;
-
-export type GetFeatureItemsQueryResponse = {
-  feature: {
-    items: FeatureItemFragmentResponse[];
-  };
-};

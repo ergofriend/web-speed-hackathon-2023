@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react/hooks';
 
 import type { GetUserAuthQueryResponse } from '../graphql/queries';
 import { GetAuthUserQuery } from '../graphql/queries';

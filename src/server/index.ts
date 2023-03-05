@@ -8,9 +8,12 @@ import bodyParser from 'koa-bodyparser';
 import compress from 'koa-compress';
 import logger from 'koa-logger';
 import route from 'koa-route';
-import send from 'koa-send';
 import session from 'koa-session';
 import serve from 'koa-static';
+import MobileDetect from 'mobile-detect';
+import { renderPage } from 'vite-plugin-ssr';
+import {createServer} from 'vite';
+import c2k from 'koa-connect';
 
 import type { Context } from './context';
 import { dataSource } from './data_source';
@@ -31,14 +34,9 @@ async function init(): Promise<void> {
   initSentry();
 
   app.keys = ['cookie-key'];
-  app.use(logger());
+  // app.use(logger());
   app.use(bodyParser());
   app.use(session({}, app));
-
-  app.use(async (ctx, next) => {
-    ctx.set('Cache-Control', 'no-store');
-    await next();
-  });
 
   const apolloServer = await initializeApolloServer();
   await apolloServer.start();
@@ -63,7 +61,16 @@ async function init(): Promise<void> {
     }),
   );
 
-  app.use(serve(rootResolve('dist')));
+  app.use(serve(rootResolve('dist/client')));
+  // const root = rootResolve('src')
+  // const viteDevMiddleware = (
+  //   await createServer({
+  //     root,
+  //     server: { middlewareMode: true }
+  //   })
+  // ).middlewares
+  // app.use(c2k(viteDevMiddleware))
+
   app.use(serve(rootResolve('public')));
   app.use(
     compress({
@@ -82,7 +89,26 @@ async function init(): Promise<void> {
     }),
   );
 
-  app.use(async (ctx) => await send(ctx, rootResolve('/dist/index.html')));
+  app.use(async (ctx, next) => {
+    const md = new MobileDetect(ctx.request.headers['user-agent'] ?? '');
+    const pageContextInit = {
+      isMobile: md.phone() !== null,
+      urlOriginal: ctx.originalUrl,
+    };
+    const pageContext = await renderPage(pageContextInit);
+
+    const { httpResponse } = pageContext;
+    if (!httpResponse) return next();
+    const { body, contentType, statusCode } = httpResponse;
+
+    console.log(`Sending ${ctx.originalUrl}: ${statusCode} ${contentType}`);
+
+    const isJavaScript = ctx.originalUrl.endsWith('.js');
+
+    ctx.status = statusCode;
+    ctx.type = contentType;
+    ctx.body = body;
+  });
 
   httpServer.listen({ port: PORT }, () => {
     console.log(`🚀 Server ready at http://localhost:${PORT}`);

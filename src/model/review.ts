@@ -8,7 +8,7 @@ export class Review {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column('text', { nullable: false })
   postedAt!: string;
 
   @ManyToOne(() => Product, (product) => product.reviews)
@@ -17,6 +17,6 @@ export class Review {
   @ManyToOne(() => User, (user) => user.reviews)
   user!: Relation<User>;
 
-  @Column()
+  @Column('text', { nullable: false })
   comment!: string;
 }

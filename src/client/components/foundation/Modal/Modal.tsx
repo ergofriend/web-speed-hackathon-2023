@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react';
-import OverlaysModal, { type RenderModalBackdropProps } from 'react-overlays/Modal';
+import OverlaysModal, { type RenderModalBackdropProps } from 'react-overlays/esm/Modal';
 
 import * as styles from './Modal.styles';
 

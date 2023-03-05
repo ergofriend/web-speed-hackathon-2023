@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client/react/hooks';
 import { useEffect } from 'react';
 import { useErrorHandler } from 'react-error-boundary';
 

@@ -10,12 +10,12 @@ export class LimitedTimeOffer {
   @ManyToOne(() => Product)
   product!: Relation<Product>;
 
-  @Column()
+  @Column('integer', { nullable: false })
   price!: number;
 
-  @Column()
+  @Column('text', { nullable: false })
   startDate!: string;
 
-  @Column()
+  @Column('text', { nullable: false })
   endDate!: string;
 }

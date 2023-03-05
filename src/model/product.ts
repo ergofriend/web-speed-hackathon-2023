@@ -9,13 +9,13 @@ export class Product {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column('text', { nullable: false })
   name!: string;
 
-  @Column()
+  @Column('integer', { nullable: false })
   price!: number;
 
-  @Column()
+  @Column('text', { nullable: false })
   description!: string;
 
   @OneToMany(() => ProductMedia, (media) => media.product)

@@ -7,7 +7,7 @@ export class FeatureSection {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column('text', { nullable: false })
   title!: string;
 
   @OneToMany(() => FeatureItem, (item) => item.section)

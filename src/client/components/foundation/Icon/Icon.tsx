@@ -1,16 +1,24 @@
+import {
+  faArrowLeft,
+  faArrowRight,
+  faCheckCircle,
+  faPlay,
+  faShoppingCart,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames';
 import type { FC } from 'react';
-import { FaArrowLeft, FaArrowRight, FaCheckCircle, FaPlay, FaShoppingCart, FaUser } from 'react-icons/fa';
+import { FontAwesomeSvgIcon } from 'react-fontawesome-svg-icon';
 
 import * as styles from './Icon.styles';
 
 const Icons = {
-  FaArrowLeft: FaArrowLeft,
-  FaArrowRight: FaArrowRight,
-  FaCheckCircle: FaCheckCircle,
-  FaPlay: FaPlay,
-  FaShoppingCart: FaShoppingCart,
-  FaUser: FaUser,
+  FaArrowLeft: faArrowLeft,
+  FaArrowRight: faArrowRight,
+  FaCheckCircle: faCheckCircle,
+  FaPlay: faPlay,
+  FaShoppingCart: faShoppingCart,
+  FaUser: faUser,
 };
 
 type Props = {
@@ -21,10 +29,9 @@ type Props = {
 };
 
 export const Icon: FC<Props> = ({ color, height, type, width }) => {
-  const Icon = Icons[type];
   return (
     <span className={classNames(type, styles.container({ color, height, width }))}>
-      <Icon />
+      <FontAwesomeSvgIcon icon={Icons[type]} />
     </span>
   );
 };

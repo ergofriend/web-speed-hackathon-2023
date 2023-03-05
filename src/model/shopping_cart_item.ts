@@ -15,6 +15,6 @@ export class ShoppingCartItem {
   @ManyToOne(() => Order)
   order!: Relation<Order>;
 
-  @Column()
+  @Column('integer', { nullable: false })
   amount!: number;
 }

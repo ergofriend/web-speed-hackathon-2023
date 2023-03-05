@@ -8,6 +8,7 @@ import { WidthRestriction } from '../../components/foundation/WidthRestriction';
 import { ProductMediaListPreviewer } from '../../components/product/ProductMediaListPreviewer';
 import { ProductOverview } from '../../components/product/ProductOverview';
 import { ProductPurchaseSection } from '../../components/product/ProductPurchaseSeciton';
+import ReviewSection from '../../components/review/ReviewSection';
 import { useActiveOffer } from '../../hooks/useActiveOffer';
 import { useAmountInCart } from '../../hooks/useAmountInCart';
 import { useAuthUser } from '../../hooks/useAuthUser';
@@ -19,8 +20,6 @@ import { useOpenModal } from '../../store/modal';
 import { normalizeCartItemCount } from '../../utils/normalize_cart_item';
 
 import * as styles from './ProductDetail.styles';
-
-const ReviewSection = lazy(() => import('../../components/review/ReviewSection'));
 
 export const ProductDetail: FC = () => {
   const { productId } = useParams();
@@ -77,9 +76,7 @@ export const ProductDetail: FC = () => {
 
             <section className={styles.reviews()}>
               <h2 className={styles.reviewsHeading()}>レビュー</h2>
-              <Suspense fallback="loading…">
-                <ReviewSection hasSignedIn={isAuthUser} onSubmitReview={handleSubmitReview} reviews={reviews} />
-              </Suspense>
+              <ReviewSection hasSignedIn={isAuthUser} onSubmitReview={handleSubmitReview} reviews={reviews} />
             </section>
           </div>
         </WidthRestriction>

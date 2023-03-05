@@ -14,6 +14,6 @@ export class ProductMedia {
   @ManyToOne(() => MediaFile)
   file!: Relation<MediaFile>;
 
-  @Column()
+  @Column('boolean', { nullable: false })
   isThumbnail!: boolean;
 }
