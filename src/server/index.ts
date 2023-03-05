@@ -1,4 +1,5 @@
 import http from 'node:http';
+import { constants } from 'zlib';
 
 import { koaMiddleware } from '@as-integrations/koa';
 import gracefulShutdown from 'http-graceful-shutdown';
@@ -64,7 +65,22 @@ async function init(): Promise<void> {
 
   app.use(serve(rootResolve('dist')));
   app.use(serve(rootResolve('public')));
-  app.use(compress());
+  app.use(
+    compress({
+      br: {
+        flush: constants.BROTLI_OPERATION_FLUSH,
+        params: {
+          [constants.BROTLI_PARAM_QUALITY]: 5,
+        },
+      },
+      deflate: {
+        flush: constants.Z_SYNC_FLUSH,
+      },
+      gzip: {
+        flush: constants.Z_SYNC_FLUSH,
+      },
+    }),
+  );
 
   app.use(async (ctx) => await send(ctx, rootResolve('/dist/index.html')));
 
