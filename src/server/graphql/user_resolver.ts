@@ -16,6 +16,7 @@ export const userResolver: GraphQLModelResolver<User> = {
   },
   profile: (parent) => {
     return dataSource.manager.findOneOrFail(Profile, {
+      cache: true,
       where: {
         user: parent,
       },

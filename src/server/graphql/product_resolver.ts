@@ -16,6 +16,7 @@ export const productResolver: GraphQLModelResolver<Product> = {
   },
   offers: (parent) => {
     return dataSource.manager.find(LimitedTimeOffer, {
+      cache: true,
       where: {
         product: parent,
       },

@@ -6,6 +6,7 @@ import type { GraphQLModelResolver } from './model_resolver';
 export const profileResolver: GraphQLModelResolver<Profile> = {
   avatar: async (parent) => {
     const profile = await dataSource.manager.findOneOrFail(Profile, {
+      cache: true,
       relations: {
         avatar: true,
       },

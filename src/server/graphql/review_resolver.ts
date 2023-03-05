@@ -16,6 +16,7 @@ export const reviewResolver: GraphQLModelResolver<Review> = {
   },
   user: async (parent) => {
     const review = await dataSource.manager.findOneOrFail(Review, {
+      cache: true,
       relations: {
         user: true,
       },
