@@ -4,6 +4,7 @@ import { koaMiddleware } from '@as-integrations/koa';
 import gracefulShutdown from 'http-graceful-shutdown';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
+import compress from 'koa-compress';
 import logger from 'koa-logger';
 import route from 'koa-route';
 import send from 'koa-send';
@@ -63,6 +64,7 @@ async function init(): Promise<void> {
 
   app.use(serve(rootResolve('dist')));
   app.use(serve(rootResolve('public')));
+  app.use(compress());
 
   app.use(async (ctx) => await send(ctx, rootResolve('/dist/index.html')));
 
