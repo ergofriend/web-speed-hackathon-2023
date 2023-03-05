@@ -1,17 +1,20 @@
 import type { FC } from 'react';
-import { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 
-import { SignInModal } from '../../modal/SignInModal';
-import { SignUpModal } from '../../modal/SignUpModal';
 import { Providers } from '../Providers';
 import { Routes } from '../Routes';
+
+const SignInModal = lazy(() => import('../../modal/SignInModal'));
+const SignUpModal = lazy(() => import('../../modal/SignUpModal'));
 
 export const App: FC = () => (
   <Providers>
     <Suspense fallback={null}>
       <Routes />
     </Suspense>
-    <SignInModal />
-    <SignUpModal />
+    <Suspense fallback={null}>
+      <SignInModal />
+      <SignUpModal />
+    </Suspense>
   </Providers>
 );
