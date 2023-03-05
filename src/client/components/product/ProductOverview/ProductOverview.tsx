@@ -1,8 +1,8 @@
-import _ from 'lodash';
 import type { FC } from 'react';
 import { memo } from 'react';
 
 import type { LimitedTimeOfferFragmentResponse, ProductFragmentResponse } from '../../../graphql/fragments';
+import { isEqual } from '../../../utils/isEqual';
 import { ProductOfferLabel } from '../ProductOfferLabel';
 
 import * as styles from './ProductOverview.styles';
@@ -60,6 +60,6 @@ export const ProductOverview: FC<Props> = memo(({ activeOffer, product }) => {
       </div>
     </div>
   );
-}, _.isEqual);
+}, isEqual);
 
 ProductOverview.displayName = 'ProductOverview';

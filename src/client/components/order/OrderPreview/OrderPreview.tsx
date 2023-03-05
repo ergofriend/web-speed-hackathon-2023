@@ -1,9 +1,9 @@
-import _ from 'lodash';
 import type { FC } from 'react';
 import { memo } from 'react';
 
 import type { OrderFragmentResponse } from '../../../graphql/fragments';
 import { useTotalPrice } from '../../../hooks/useTotalPrice';
+import { isEqual } from '../../../utils/isEqual';
 import { CartItem } from '../CartItem';
 
 import * as styles from './OrderPreview.styles';
@@ -33,6 +33,6 @@ export const OrderPreview: FC<Props> = memo(({ onRemoveCartItem, onUpdateCartIte
       </p>
     </div>
   );
-}, _.isEqual);
+}, isEqual);
 
 OrderPreview.displayName = 'OrderPreview';

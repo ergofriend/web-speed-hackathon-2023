@@ -1,10 +1,10 @@
 import classNames from 'classnames';
-import _ from 'lodash';
 import { memo } from 'react';
 import type { FC } from 'react';
 
 import type { ProductFragmentResponse } from '../../../graphql/fragments';
 import { getDummyImage } from '../../../utils/get_dummy_image';
+import { isEqual } from '../../../utils/isEqual';
 import { Anchor } from '../../foundation/Anchor';
 import { AspectRatio } from '../../foundation/AspectRatio';
 import { DeviceType, GetDeviceType } from '../../foundation/GetDeviceType';
@@ -64,7 +64,7 @@ export const ProductHeroImage: FC<Props> = memo(({ product, title }) => {
       }}
     </GetDeviceType>
   );
-}, _.isEqual);
+}, isEqual);
 
 ProductHeroImage.displayName = 'ProductHeroImage';
 
