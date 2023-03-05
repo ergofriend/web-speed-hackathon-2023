@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 
 import type {
   AuthUserFragmentResponse,
+  FeatureItemFragmentResponse,
   FeatureSectionFragmentResponse,
   ProductReviewFragmentResponse,
   ProductWithReviewFragmentResponse,
@@ -9,6 +10,7 @@ import type {
 } from './fragments';
 import {
   AuthUserFragment,
+  FeatureItemFragment,
   FeatureSectionFragment,
   ProductReviewFragment,
   ProductWithReviewFragment,
@@ -78,4 +80,22 @@ export const GetFeatureSectionsQuery = gql`
 `;
 export type GetFeatureSectionsQueryResponse = {
   features: FeatureSectionFragmentResponse[];
+};
+
+export const GetFeatureItemsQuery = gql`
+  ${FeatureItemFragment}
+
+  query GetFeatureItems($featureId: Int!) {
+    feature(id: $featureId) {
+      items {
+        ...FeatureItemFragment
+      }
+    }
+  }
+`;
+
+export type GetFeatureItemsQueryResponse = {
+  feature: {
+    items: FeatureItemFragmentResponse[];
+  };
 };

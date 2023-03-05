@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import type { FeatureSectionFragmentResponse } from '../../../graphql/fragments';
+import { useFeatureItems } from '../../../hooks/useFeatureItems';
 import { ProductCard } from '../ProductCard';
 
 import * as styles from './ProductGridList.styles';
@@ -10,7 +11,8 @@ type Props = {
 };
 
 export const ProductGridList: FC<Props> = ({ featureSection }) => {
-  const products = featureSection.items.map((item) => item.product);
+  const { items } = useFeatureItems(featureSection.id);
+  const products = items.map((item) => item.product);
 
   return (
     <ul className={styles.cardList()}>

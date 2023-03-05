@@ -223,16 +223,9 @@ export type FeatureItemFragmentResponse = Pick<FeatureItem, 'id'> & {
 };
 
 export const FeatureSectionFragment = gql`
-  ${FeatureItemFragment}
-
   fragment FeatureSectionFragment on FeatureSection {
     id
     title
-    items {
-      ...FeatureItemFragment
-    }
   }
 `;
-export type FeatureSectionFragmentResponse = Pick<FeatureSection, 'id' | 'title'> & {
-  items: FeatureItemFragmentResponse[];
-};
+export type FeatureSectionFragmentResponse = Pick<FeatureSection, 'id' | 'title'>;
