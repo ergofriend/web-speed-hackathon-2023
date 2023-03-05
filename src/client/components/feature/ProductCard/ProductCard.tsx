@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import type { ProductFragmentResponse } from '../../../graphql/fragments';
 import { useActiveOffer } from '../../../hooks/useActiveOffer';
+import { getDummyImage } from '../../../utils/get_dummy_image';
 import { Anchor } from '../../foundation/Anchor';
 import { AspectRatio } from '../../foundation/AspectRatio';
 import { Image } from '../../foundation/Image';
@@ -40,6 +41,24 @@ export const ProductCard: FC<Props> = ({ product }) => {
             <ProductOfferLabel size="base">タイムセール中</ProductOfferLabel>
           </div>
         )}
+      </div>
+    </Anchor>
+  );
+};
+
+export const DummyProductCard = () => {
+  return (
+    <Anchor href={`#`}>
+      <div className={styles.inner()}>
+        <div className={styles.image()}>
+          <AspectRatio ratioHeight={9} ratioWidth={16}>
+            <Image height={126} src={getDummyImage()} width={224} />
+          </AspectRatio>
+        </div>
+        <div className={styles.description()}>
+          <p className={styles.itemName()}>{''}</p>
+          <span className={styles.itemPrice()}>{''}</span>
+        </div>
       </div>
     </Anchor>
   );

@@ -4,6 +4,7 @@ import { memo } from 'react';
 import type { FC } from 'react';
 
 import type { ProductFragmentResponse } from '../../../graphql/fragments';
+import { getDummyImage } from '../../../utils/get_dummy_image';
 import { Anchor } from '../../foundation/Anchor';
 import { AspectRatio } from '../../foundation/AspectRatio';
 import { DeviceType, GetDeviceType } from '../../foundation/GetDeviceType';
@@ -66,3 +67,42 @@ export const ProductHeroImage: FC<Props> = memo(({ product, title }) => {
 }, _.isEqual);
 
 ProductHeroImage.displayName = 'ProductHeroImage';
+
+export const DummyProductHeroImage = () => {
+  return (
+    <GetDeviceType>
+      {({ deviceType }) => {
+        return (
+          <WidthRestriction>
+            <Anchor href={`#`}>
+              <div className={styles.container()}>
+                <AspectRatio ratioHeight={9} ratioWidth={16}>
+                  <img className={styles.image()} src={getDummyImage()} />
+                </AspectRatio>
+
+                <div className={styles.overlay()}>
+                  <p
+                    className={classNames(styles.title(), {
+                      [styles.title__desktop()]: deviceType === DeviceType.DESKTOP,
+                      [styles.title__mobile()]: deviceType === DeviceType.MOBILE,
+                    })}
+                  >
+                    {''}
+                  </p>
+                  <p
+                    className={classNames(styles.description(), {
+                      [styles.description__desktop()]: deviceType === DeviceType.DESKTOP,
+                      [styles.description__mobile()]: deviceType === DeviceType.MOBILE,
+                    })}
+                  >
+                    {''}
+                  </p>
+                </div>
+              </div>
+            </Anchor>
+          </WidthRestriction>
+        );
+      }}
+    </GetDeviceType>
+  );
+};

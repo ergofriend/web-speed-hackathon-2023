@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { Suspense } from 'react';
 
 import { SignInModal } from '../../modal/SignInModal';
 import { SignUpModal } from '../../modal/SignUpModal';
@@ -7,7 +8,9 @@ import { Routes } from '../Routes';
 
 export const App: FC = () => (
   <Providers>
-    <Routes />
+    <Suspense fallback={null}>
+      <Routes />
+    </Suspense>
     <SignInModal />
     <SignUpModal />
   </Providers>
