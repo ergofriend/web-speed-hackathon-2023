@@ -11,9 +11,8 @@ import { App } from '../client/components/application/App';
 import type { PageContext } from './type';
 
 async function render(pageContext: PageContextBuiltInClient & PageContext) {
-  const { isMobile, Page } = pageContext;
-  const apolloClient = makeApolloClient(pageContext.apolloInitialState);
-  console.log('hydrateRoot start');
+  const { apolloInitialState, isMobile, Page } = pageContext;
+  const apolloClient = makeApolloClient(apolloInitialState);
   hydrateRoot(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     document.getElementById('page-content')!,
@@ -28,7 +27,6 @@ async function render(pageContext: PageContextBuiltInClient & PageContext) {
       },
     },
   );
-  console.log('hydrateRoot end');
 }
 
 function makeApolloClient(apolloInitialState?: NormalizedCacheObject) {
