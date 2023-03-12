@@ -1,4 +1,5 @@
 import type { NormalizedCacheObject } from '@apollo/client';
+import type { GraphQLSchema } from 'graphql';
 
 export type PageContext = {
   isMobile: boolean;
@@ -6,4 +7,5 @@ export type PageContext = {
   apolloInitialState: NormalizedCacheObject | undefined;
   urlOriginal: string;
   urlPathname: string;
+  schema: GraphQLSchema;
 };

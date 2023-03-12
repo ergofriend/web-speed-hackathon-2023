@@ -2,6 +2,8 @@ import fs from 'node:fs/promises';
 
 import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import type { GraphQLSchema } from 'graphql';
+import { makeExecutableSchema } from 'graphql-tools';
 
 import type { Context } from '../context';
 import { apolloTracingPlugin } from '../sentry';
@@ -20,7 +22,7 @@ import { reviewResolver } from './review_resolver';
 import { shoppingCartItemResolver } from './shopping_cart_item_resolver';
 import { userResolver } from './user_resolver';
 
-export async function initializeApolloServer(): Promise<ApolloServer<Context>> {
+export async function initializeApolloServer(): Promise<{ server: ApolloServer<Context>; schema: GraphQLSchema }> {
   const typeDefs = await Promise.all(
     [
       rootResolve('./src/model/feature_item.graphql'),
@@ -40,24 +42,28 @@ export async function initializeApolloServer(): Promise<ApolloServer<Context>> {
     ].map((filepath) => fs.readFile(filepath, { encoding: 'utf-8' })),
   );
 
+  const resolvers = {
+    FeatureItem: featureItemResolver,
+    FeatureSection: featureSectionResolver,
+    Mutation: mutationResolver,
+    Order: orderResolver,
+    Product: productResolver,
+    ProductMedia: productMediaResolver,
+    Profile: profileResolver,
+    Query: queryResolver,
+    Recommendation: recommendationResolver,
+    Review: reviewResolver,
+    ShoppingCartItem: shoppingCartItemResolver,
+    User: userResolver,
+  };
+
   const server = new ApolloServer<Context>({
     plugins: [apolloTracingPlugin, ApolloServerPluginLandingPageLocalDefault({ includeCookies: true })],
-    resolvers: {
-      FeatureItem: featureItemResolver,
-      FeatureSection: featureSectionResolver,
-      Mutation: mutationResolver,
-      Order: orderResolver,
-      Product: productResolver,
-      ProductMedia: productMediaResolver,
-      Profile: profileResolver,
-      Query: queryResolver,
-      Recommendation: recommendationResolver,
-      Review: reviewResolver,
-      ShoppingCartItem: shoppingCartItemResolver,
-      User: userResolver,
-    },
+    resolvers,
     typeDefs,
   });
 
-  return server;
+  const schema = makeExecutableSchema({ resolvers, typeDefs });
+
+  return { schema, server };
 }

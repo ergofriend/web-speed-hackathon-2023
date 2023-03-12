@@ -1,6 +1,8 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core';
+import { ApolloClient, InMemoryCache } from '@apollo/client/core';
+import { SchemaLink } from '@apollo/client/link/schema';
 import { renderToStringWithData } from '@apollo/client/react/ssr';
 import { renderStylesToString } from '@emotion/server';
+import type { GraphQLSchema } from 'graphql';
 import { StaticRouter } from 'react-router-dom/server';
 import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr';
 import type { PageContextBuiltInClient } from 'vite-plugin-ssr/client/router';
@@ -15,8 +17,8 @@ export { passToClient };
 const passToClient = ['apolloInitialState', 'isMobile'];
 
 async function render(pageContext: PageContextBuiltInClient & PageContext) {
-  const { isMobile, Page, urlPathname } = pageContext;
-  const apolloClient = makeApolloClient();
+  const { isMobile, Page, schema, urlPathname } = pageContext;
+  const apolloClient = makeApolloClient(schema);
 
   // See https://www.apollographql.com/docs/react/performance/server-side-rendering/
   const tree = (
@@ -47,13 +49,10 @@ async function render(pageContext: PageContextBuiltInClient & PageContext) {
   };
 }
 
-function makeApolloClient() {
+function makeApolloClient(schema: GraphQLSchema) {
   const apolloClient = new ApolloClient({
     cache: new InMemoryCache(),
-    link: createHttpLink({
-      fetch,
-      uri: 'http://127.0.0.1:8080/graphql',
-    }),
+    link: new SchemaLink({ schema }),
     ssrMode: true,
   });
   return apolloClient;

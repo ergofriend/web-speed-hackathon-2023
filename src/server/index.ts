@@ -1,11 +1,10 @@
 import http from 'node:http';
-import { constants } from 'zlib';
 
 import { koaMiddleware } from '@as-integrations/koa';
 import gracefulShutdown from 'http-graceful-shutdown';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
-import compress from 'koa-compress';
+import c2k from 'koa-connect';
 import logger from 'koa-logger';
 import route from 'koa-route';
 import session from 'koa-session';
@@ -16,6 +15,7 @@ import { renderPage } from 'vite-plugin-ssr';
 import type { Context } from './context';
 import { dataSource } from './data_source';
 import { initializeApolloServer } from './graphql';
+import { root } from './root';
 import { getTransaction, initSentry } from './sentry';
 import { initializeDatabase } from './utils/initialize_database';
 import { rootResolve } from './utils/root_resolve';
@@ -36,7 +36,21 @@ async function init(): Promise<void> {
   app.use(bodyParser());
   app.use(session({}, app));
 
-  const apolloServer = await initializeApolloServer();
+  // dist/client にすると mine/type エラーになる
+  // app.use(serve(rootResolve('dist/client'), { maxAge: 1000 * 60 * 1 })); // 1 minute
+  const vite = await import('vite');
+  const viteDevMiddleware = (
+    await vite.createServer({
+      root,
+      server: { middlewareMode: true },
+    })
+  ).middlewares;
+
+  app.use(c2k(viteDevMiddleware));
+
+  app.use(serve(rootResolve('public'), { maxAge: 1000 * 60 * 60 * 24 })); // 24 hour
+
+  const { schema, server: apolloServer } = await initializeApolloServer();
   await apolloServer.start();
 
   app.use(
@@ -59,38 +73,12 @@ async function init(): Promise<void> {
     }),
   );
 
-  app.use(serve(rootResolve('dist/client')));
-  // const root = rootResolve('src')
-  // const viteDevMiddleware = (
-  //   await createServer({
-  //     root,
-  //     server: { middlewareMode: true }
-  //   })
-  // ).middlewares
-  // app.use(c2k(viteDevMiddleware))
-
-  app.use(serve(rootResolve('public')));
-  app.use(
-    compress({
-      br: {
-        flush: constants.BROTLI_OPERATION_FLUSH,
-        params: {
-          [constants.BROTLI_PARAM_QUALITY]: 5,
-        },
-      },
-      deflate: {
-        flush: constants.Z_SYNC_FLUSH,
-      },
-      gzip: {
-        flush: constants.Z_SYNC_FLUSH,
-      },
-    }),
-  );
-
   app.use(async (ctx, next) => {
+    console.log('rendering', ctx.originalUrl);
     const md = new MobileDetect(ctx.request.headers['user-agent'] ?? '');
     const pageContextInit = {
       isMobile: md.phone() !== null,
+      schema,
       urlOriginal: ctx.originalUrl,
     };
     const pageContext = await renderPage(pageContextInit);
